@@ -113,4 +113,9 @@ public class JarURLDriver extends AbstractFSDriver<Handle> {
   public InputStream open(Handle handle) throws IOException {
     return loader.getResourceAsStream(handle.entry.getName());
   }
+
+  @Override
+  public String toString() {
+    return "JarURLDriver[" + jarURL + "]";
+  }
 }

@@ -62,4 +62,9 @@ public class Handle {
     String file = driver.jarURL.toString() + "!/" + entry.getName();
     return new URL("jar", "", file);
   }
+
+  @Override
+  public String toString() {
+    return "JarURLHandle[driver=" + driver +  ",path=" + path + "]";
+  }
 }

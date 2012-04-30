@@ -84,6 +84,7 @@
   </dependencies>
 
   <build>
+<!--
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +103,28 @@
           </execution>
           <execution>
             <id>make-packaging</id>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+-->
+    <plugins>
+      <plugin>
+        <groupId>com.jolira</groupId>
+        <artifactId>onejar-maven-plugin</artifactId>
+        <version>1.4.4</version>
+        <executions>
+          <execution>
+            <configuration>
+              <onejarVersion>0.97</onejarVersion>
+              <classifier>standalone</classifier>
+              <mainClass>org.crsh.standalone.CRaSH</mainClass>
+              <attachToBuild>true</attachToBuild>
+              <filename>${pom.artifactId}-${pom.version}-standalone.jar</filename>
+            </configuration>
+            <goals>
+              <goal>one-jar</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

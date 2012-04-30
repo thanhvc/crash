@@ -74,4 +74,9 @@ class Handle<H> {
   long getLastModified() throws IOException {
     return driver.getLastModified(handle);
   }
+
+  @Override
+  public String toString() {
+    return "Handle[driver=" + driver +",key=" + key + ",handle=" + handle + "]";
+  }
 }

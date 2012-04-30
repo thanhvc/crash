@@ -74,7 +74,6 @@ public final class File {
     }
     Handle handle = getHandles().peekFirst();
     return handle != null ? handle.getResource() : null;
-
   }
 
   public Iterable<Resource> getResources() throws IOException {

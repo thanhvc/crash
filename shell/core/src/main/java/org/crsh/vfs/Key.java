@@ -55,4 +55,9 @@ class Key {
   public int hashCode() {
     return name.hashCode() ^ (dir ? 0xFFFFFFFF : 0);
   }
+
+  @Override
+  public String toString() {
+    return "Key[name=" + name + ",dir=" + dir + "]";
+  }
 }
