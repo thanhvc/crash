@@ -76,9 +76,16 @@ public class ExoPlugin extends JCRPlugin<ExoPlugin> {
 
         //
         if (repositoryService != null) {
-          Method getCurrentRepositoryMethod = repositoryService.getClass().getMethod(
-              "getCurrentRepository");
-          return (Repository) getCurrentRepositoryMethod.invoke(repositoryService);
+          
+          String repositoryName = properties != null ? properties.get("repository") : null;
+          if (repositoryName != null) {
+            Method setCurrentRepositoryName = repositoryService.getClass().getMethod("setCurrentRepositoryName", String.class);
+            return (Repository) setCurrentRepositoryName.invoke(repositoryService, repositoryName);
+          } else {
+            Method getCurrentRepositoryMethod = repositoryService.getClass().getMethod("getCurrentRepository");
+            return (Repository) getCurrentRepositoryMethod.invoke(repositoryService);
+          }
+          
         }
       }
     }
