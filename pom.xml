@@ -112,6 +112,13 @@
         <classifier>sources</classifier>
       </dependency>
 
+      <!-- Module fsub-->
+       <dependency>
+        <groupId>org.crsh</groupId>
+        <artifactId>crsh.fsub</artifactId>
+        <version>1.2.6</version>
+      </dependency>
+
       <!-- Module shell core -->
       <dependency>
         <groupId>org.crsh</groupId>
@@ -195,6 +202,7 @@
         <artifactId>crsh.shell.packaging</artifactId>
         <version>1.2.6</version>
       </dependency>
+
       <dependency>
         <groupId>org.crsh</groupId>
         <artifactId>crsh.shell.packaging</artifactId>
@@ -537,6 +545,7 @@
   <modules>
     <module>cli</module>
     <module>shell</module>
+    <module>fsub</module>
     <module>jcr</module>
     <module>doc</module>
     <module>plugins</module>
@@ -546,6 +555,16 @@
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.9</version>
+          <configuration>
+            <classpathContainers>
+              <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
+            </classpathContainers>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>

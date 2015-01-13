@@ -25,6 +25,12 @@
       <artifactId>crsh.cli</artifactId>
     </dependency>
 
+    <!-- Module fsub -->
+    <dependency>
+      <groupId>org.crsh</groupId>
+      <artifactId>crsh.fsub</artifactId>
+    </dependency>
+
     <!-- Core -->
     <dependency>
       <groupId>org.crsh</groupId>
@@ -54,6 +60,7 @@
       <artifactId>crsh.shell.ssh</artifactId>
       <classifier>standalone</classifier>
     </dependency>
+    
 
     <!-- SSHD connector dependencies -->
     <dependency>
