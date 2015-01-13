@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import com.github.dualsub.util.Charset;
 import com.github.dualsub.util.I18N;
 import com.github.dualsub.util.Log;
 
@@ -46,6 +47,10 @@ public class Merger {
 	private boolean translate;
 	private boolean merge;
 
+	public Merger(Properties properties) {
+	  this(".", true, 1000, true, properties, Charset.UTF8, 0, false, false);
+  }
+	
 	public Merger(String outputFolder, boolean extend, int extension,
 			boolean progressive, Properties properties, String charset,
 			int desynch, boolean translate, boolean merge) {
@@ -61,44 +66,38 @@ public class Merger {
 		this.merge = merge;
 	}
 
-	public DualSrt mergeSubs(Srt srtLeft, Srt srtRigth) throws ParseException {
-		DualSrt dualSrt = new DualSrt(properties, getDesynch(), extend,
-				extension, progressive);
+  public DualSrt mergeSubs(Srt srtLeft, Srt srtRigth) throws ParseException {
+    DualSrt dualSrt = new DualSrt(properties, getDesynch(), extend, extension, progressive);
 
-		Map<String, Entry> subtitlesLeft = new TreeMap<String, Entry>(
-				srtLeft.getSubtitles());
-		Map<String, Entry> subtitlesRight = new TreeMap<String, Entry>(
-				srtRigth.getSubtitles());
+    Map<String, Entry> subtitlesLeft = new TreeMap<String, Entry>(srtLeft.getSubtitles());
+    Map<String, Entry> subtitlesRight = new TreeMap<String, Entry>(srtRigth.getSubtitles());
 
-		if (subtitlesLeft.isEmpty() || subtitlesRight.isEmpty()) {
-			if (subtitlesLeft.isEmpty()) {
-				dualSrt.addAll(subtitlesRight);
-			} else if (subtitlesRight.isEmpty()) {
-				dualSrt.addAll(subtitlesLeft);
-			}
-		} else {
-			for (String t : subtitlesLeft.keySet()) {
-				if (subtitlesRight.containsKey(t)) {
-					dualSrt.addEntry(t, new Entry[] { subtitlesLeft.get(t),
-							subtitlesRight.get(t) });
-					subtitlesRight.remove(t);
-				} else {
-					dualSrt.addEntry(t, new Entry[] { subtitlesLeft.get(t),
-							new Entry() });
-				}
-			}
+    if (subtitlesLeft.isEmpty() || subtitlesRight.isEmpty()) {
+      if (subtitlesLeft.isEmpty()) {
+        dualSrt.addAll(subtitlesRight);
+      } else if (subtitlesRight.isEmpty()) {
+        dualSrt.addAll(subtitlesLeft);
+      }
+    } else {
+      for (String t : subtitlesLeft.keySet()) {
+        if (subtitlesRight.containsKey(t)) {
+          dualSrt.addEntry(t, new Entry[] { subtitlesLeft.get(t), subtitlesRight.get(t) });
+          subtitlesRight.remove(t);
+        } else {
+          dualSrt.addEntry(t, new Entry[] { subtitlesLeft.get(t), new Entry() });
+        }
+      }
 
-			if (!subtitlesRight.isEmpty()) {
-				for (String t : subtitlesRight.keySet()) {
-					Log.debug("Desynchronization on " + t + " "
-							+ subtitlesRight.get(t).subtitleLines);
-					dualSrt.processDesync(t, subtitlesRight.get(t));
-				}
-			}
-		}
+      if (!subtitlesRight.isEmpty()) {
+        for (String t : subtitlesRight.keySet()) {
+          Log.debug("Desynchronization on " + t + " " + subtitlesRight.get(t).subtitleLines);
+          dualSrt.processDesync(t, subtitlesRight.get(t));
+        }
+      }
+    }
 
-		return dualSrt;
-	}
+    return dualSrt;
+  }
 
 	public String getMergedFileName(Srt subs1, Srt subs2) {
 		String mergedFileName = "";

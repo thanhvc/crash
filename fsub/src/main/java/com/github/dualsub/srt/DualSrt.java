@@ -343,6 +343,10 @@ public class DualSrt {
 
     return SrtUtils.createSrtTime(new Date(initCandidate), new Date(endCandidate));
   }
+  
+  public void writeSrt(String fileOuput) throws IOException, ParseException {
+    writeSrt(fileOuput, "UTF8", false, true);
+  }
 
   /**
    * It writes a new subtitle file (SRT) from a subtitle map.

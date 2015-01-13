@@ -52,6 +52,7 @@ import com.github.dualsub.util.Log;
 class fsub extends CRaSHCommand {
   private static Srt srtLeft;
   private static Srt srtRight;
+  private static Srt srtMerged;
 
   @Usage("Loading the subtitle file: fsub load -l [-r] /Users/thanhvc/Documents/english/Friends/season5/Friends_S502_eng.srt")
   @Command
@@ -154,4 +155,32 @@ class fsub extends CRaSHCommand {
       }
     }
   }
+
+
+  @Usage("Merge the left subtitle and right one to new one.")
+  @Command
+  public Object merge() throws Exception {
+    SrtUtils.init("450", "Tahoma", 14, true, false, ".", 50);
+    Properties props = new Properties();
+    InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("dualsub.properties");
+    props.load(inputStream);
+    Merger merger = new Merger(props);
+    DualSrt dualSrt = merger.mergeSubs(srtLeft, srtRight);
+    String mergedFileName = merger.getMergedFileName(srtLeft, srtRight);
+    dualSrt.writeSrt(mergedFileName);
+    srtMerged = new Srt(mergedFileName);
+    return "success";
+  }
+
+  @Usage("Dual srt show")
+  @Command
+  public Object dual(@Argument Integer offset) throws ScriptException {
+    if (srtMerged != null) {
+      showRange(srtMerged, offset, 10);
+    } else {
+      return "Merged is not existing!"
+    }
+    return "success";
+  }
+
 }
